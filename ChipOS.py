@@ -151,7 +151,7 @@ def today_date():
 def say_hello(text):
     greet = ["hi", "hey", "hello"]
 
-    response = ["Welcome To ChipOS", "hello", "hey there"]
+    response = ["Welcome To ChipOS", "hello", "How can i help"]
 
     for word in text.split():
         if word.lower() in greet:
@@ -166,7 +166,13 @@ def wiki_person(text):
         if i + 3 <= len(list_wiki) - 1 and list_wiki[i].lower() == "who" and list_wiki[i + 1].lower() == "is":
             return list_wiki[i + 2] + " " + list_wiki[i + 3]
 
+def note(text):
+    date = datetime.datetime.now()
+    file_name = str(date).replace(":", "-") + "-note.txt"
+    with open(file_name, "w") as f:
+        f.write(text)
 
+    subprocess.Popen(["notepad.exe", file_name])
 
 def google_calendar():
     creds = None
@@ -191,7 +197,7 @@ def google_calendar():
 
 
 def calendar_events(num, service):
-    talk('Hey there! Good Day. Hope you are doing fine. These are the events to do today')
+    talk('Welcome to Chip Calender')
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     print(f'Getting the upcoming {num} events')
     events_result = service.events().list(calendarId='primary', timeMin=now,
@@ -271,16 +277,6 @@ while True:
             elif "about" in text or "about you" in text:
                 speak = speak + """ChipOS v0.1 by Squirrel Computers."""
 
- 
-            elif "play music" in text or "play song" in text:
-                talk("Here you go with music")
-                music_dir = r"Location of directory"
-                songs = os.listdir(music_dir)
-                d = random.choice(songs)
-                random = os.path.join(music_dir, d)
-                playsound.playsound(random)
-
-
             elif "note" in text or "remember this" in text:
                 talk("What would you like me to write down?")
                 note_text = rec_audio()
@@ -317,31 +313,7 @@ while True:
                 else:
                     speak = speak + "City Not Found"
 
-            elif "news" in text:
-                url = (
-                    "http://newsapi.org/v2/top-headlines?"
-                    "country= &"
-                    "apiKey= "
-                )
 
-                try:
-                    response = requests.get(url)
-                except:
-                    talk("Please check your connection")
-
-                news = json.loads(response.text)
-
-                for new in news["articles"]:
-                    print(str(new["title"]), "\n")
-                    talk(str(new["title"]))
-                    engine.runAndWait()
-
-                    print(str(new["description"]), "\n")
-                    talk(str(new["description"]))
-                    engine.runAndWait()
-                    time.sleep(2)
-
-                    
             elif "calculate" in text:
                 app_id = "Wolfram Alpha ID"
                 client = wolframalpha.Client(app_id)
@@ -365,8 +337,6 @@ while True:
                 a = int(rec_audio())
                 time.sleep(a)
                 speak = speak + str(a) + " seconds completed. Now you can ask me anything"
-
-            elif "exit" in text or "quit" in text:
 
             response(speak)
 
