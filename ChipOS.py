@@ -57,10 +57,10 @@ def rec_audio():
         print("You said: " + data)
 
     except sr.UnknownValueError:
-        print("ChipOS could not understand the audio")
+        print("John could not understand the audio")
 
     except sr.RequestError as ex:
-        print("Request Error from ChipOS" + ex)
+        print("Request Error from John" + ex)
 
     return data
 
@@ -79,7 +79,7 @@ def response(text):
 
 
 def call(text):
-    action_call = "chip"
+    action_call = "john"
 
     text = text.lower()
 
@@ -151,7 +151,7 @@ def today_date():
 def say_hello(text):
     greet = ["hi", "hey", "hello"]
 
-    response = ["Welcome To ChipOS", "hello", "How can i help"]
+    response = ["Welcome To John", "hello", "How can i help"]
 
     for word in text.split():
         if word.lower() in greet:
@@ -197,7 +197,7 @@ def google_calendar():
 
 
 def calendar_events(num, service):
-    talk('Welcome to Chip Calender')
+    talk('Welcome to John Calender')
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     print(f'Getting the upcoming {num} events')
     events_result = service.events().list(calendarId='primary', timeMin=now,
@@ -275,7 +275,7 @@ while True:
                     speak = speak + " " + wiki
 
             elif "about" in text or "about you" in text:
-                speak = speak + """ChipOS v0.1 by Squirrel Computers."""
+                speak = speak + """John v0.1 by Squirrel Computers."""
 
             elif "note" in text or "remember this" in text:
                 talk("What would you like me to write down?")
